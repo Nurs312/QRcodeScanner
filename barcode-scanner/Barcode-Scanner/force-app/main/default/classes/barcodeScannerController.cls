@@ -23,5 +23,20 @@ public with sharing class barcodeScannerController {
             System.debug('Tenant with information given on package does not live in this address! This package will be sent back to the sender.');
         }
     }
+    @AuraEnabled
+    public static void setStatusToDelivered(String payload){
+        Map<String,object> mappedBarcodeValues =(Map<String,object>)JSON.deserializeUntyped(payload);
+        System.debug(mappedBarcodeValues);
+        String trackingNumber = (String)mappedBarcodeValues.get('pckgNumber');
+        String packageEmail = (String)mappedBarcodeValues.get('email');
+        String unitNumber = (String)mappedBarcodeValues.get('unitNumber');
+        list<Package__c> existingPackage = [Select Id, Tracking_Number__c from Package__c where Tracking_Number__c =:trackingNumber];
+        if(!existingPackage.isEmpty()){
+            existingPackage[0].Status__c = 'Delivered';
+            update existingPackage;
+        }else{
+            system.debug('Package is not found');
+        }
+    }
         
 }
