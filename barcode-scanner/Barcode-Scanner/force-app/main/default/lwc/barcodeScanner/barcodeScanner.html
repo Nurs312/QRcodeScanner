@@ -17,6 +17,20 @@
         </div>
     </template>
 
+     <!-- After a barcode is successfully scanned, 
+         its value is displayed here: -->
+         <template lwc:if={deliveredPackage}>
+            <div class="slds-var-m-vertical_large slds-var-p-vertical_medium 
+                 slds-text-align_center slds-border_top slds-border_bottom">
+                Scanned barcode value is:
+                <p class="slds-text-heading_small">First Name: {deliveredPackage.firstName}</p>
+                <p class="slds-text-heading_small">Last Name: {deliveredPackage.lastName}</p>
+                <p class="slds-text-heading_small">Email: {deliveredPackage.email}</p>
+                <p class="slds-text-heading_small">Tracking Number: {deliveredPackage.pckgNumber}</p>
+                <p class="slds-text-heading_small">Unit Number: {deliveredPackage.unitNumber}</p>
+            </div>
+        </template>
+
     <!-- Static help text -->
     <div class="slds-text-align_center slds-text-color_weak slds-m-vertical_large">
         Click <strong>Scan Barcode</strong> to open a barcode scanner camera view. Position a
@@ -31,9 +45,20 @@
             class="slds-var-m-left_x-small"
             disabled={scanButtonDisabled}
             icon-name="utility:scan"
-            label="Scan Barcode"
+            label="Scan Barcode to Mark as Arrived"
             title="Open a camera view and look for a barcode to scan"
             onclick={handleBeginScanClick}>
+        </lightning-button>
+    </div>
+    <div class="slds-align_absolute-center slds-m-vertical_large">
+        <lightning-button
+            variant="success"
+            class="slds-var-m-left_x-small"
+            disabled={scanButtonDisabled}
+            icon-name="utility:scan"
+            label="Scan Barcode to Mark as Delivered"
+            title="Open a camera view and look for a barcode to scan"
+            onclick={handleMarkAsDelivered}>
         </lightning-button>
     </div>
 </template>
